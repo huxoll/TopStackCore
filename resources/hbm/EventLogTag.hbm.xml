@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 10, 2011 9:13:50 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.msi.tough.model.EventLogTagBean" table="event_log_tag">
+        <composite-id name="id" class="com.msi.tough.model.EventLogTagId">
+            <key-property name="eventId" type="long">
+                <column name="eventid" length="20" />
+            </key-property>
+            <key-property name="tag" type="string">
+                <column name="tag" length="64" />
+            </key-property>
+        </composite-id>
+        <property name="preferredBackupWindow" type="string">
+            <column name="preferred_backup_window" length="20" />
+        </property>
+    </class>
+</hibernate-mapping>

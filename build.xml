@@ -1,0 +1,147 @@
+<project name="tough-core" basedir="." default="dist">
+
+	<property name="name" value="tough-core" />
+	<property file="${user.home}/${name}.properties"/>
+	<property file="${user.home}/build.properties"/>
+	<property name="config.filename" value="${user.name}.properties"/>
+	<property file="${config.filename}"/>
+	<property file="build.properties"/>
+
+	<property name="project.base.dir" value="." />
+	<property name="src" value="${project.base.dir}/src" />
+	<property name="resources" value="${project.base.dir}/resources" />
+	<property name="test" value="${project.base.dir}/test" />
+	<property name="build" value="${project.base.dir}/build" />
+	<property name="classes" value="${build}/classes" />
+	<property name="jar.dir" value="${project.base.dir}/build/lib/" />
+	<property name="lib" value="${build}/lib" />
+	<property name="external" value="${build}/external" />
+	<property name="external.jars" value="${build}/external/lib" />
+	<property name="external.lib" value="${build}/external/lib" />
+	<property name="resources" value="${project.base.dir}/resources" />
+	<property value="" name="jars.ok" />
+	<property name="hudson.url" value="jenkins.momentumsoftware.com:8080/" />
+    <property name="no.db" value="ToughCore doesn't use DB."/>
+
+    <property name="maven.compat" value="true" />
+    <property name="protobuffers.version" value="2.4.1" />
+    <property name="protobuf.dir" location="${src}/protobuf" />
+    <property name="message.dir" value="${src}/com/msi/tough/message" />
+
+    <property name="dist.suffix" value=""/>
+	<property name="toughresources" value="TopStackResources${dist.suffix}"/>
+	<property name="toughresources.dir" value="${project.base.dir}/../${toughresources}"/>
+    <import file="${toughresources.dir}/common.build.xml" />
+
+	<target name="war.all"><!-- no op target due to common build --></target>
+
+	<target name="init">
+		<mkdir dir="${build}" />
+		<mkdir dir="${classes}" />
+		<mkdir dir="${lib}" />
+	    <echo>made ${lib} </echo>
+		<mkdir dir="${external}" />
+		<mkdir dir="${external.jars}" />
+        <mkdir dir="${message.dir}" />
+	</target>
+
+    <!-- special version of copy dependencies; core is the only project that doesn't depend on core. -->
+    <target name="copy-dependencies-hudson-core" depends="init, maven.init"
+            description="Get the project from hudson" unless="is.development" >
+        <!-- copy maven dependencies; brute force, for now. -->
+        <copy todir="${external.lib}">
+          <fileset refid="topstackcore.deps" />
+            <!-- This mapper strips off all leading directory information -->
+          <mapper type="flatten" />
+        </copy>
+        <property name="project.build.number" value="lastSuccessfulBuild" />
+        <get src="http://${hudson.url}/job/${toughresources}/${project.build.number}/artifact/build/lib/tough-resources.zip" dest="${external}/tough-resources.zip" />
+        <unzip dest="${external.jars}" src="${external}/tough-resources.zip"/>
+        <get src="http://${hudson.url}/job/${toughresources}/${project.build.number}/artifact/build/lib/tough-resources-config.zip" dest="${external}/tough-resources-config.zip" />
+    </target>
+
+    <!-- special version of copy dependencies; core is the only project that doesn't depend on core. -->
+    <target name="copy-dependencies-dev-core" depends="init, maven.init"
+            description="Locally get the resources project" if="is.development">
+        <!-- copy maven dependencies; brute force, for now. -->
+        <copy todir="${external.lib}">
+            <fileset refid="topstackcore.deps"/>
+            <!-- This mapper strips off all leading directory information -->
+            <mapper type="flatten" />
+        </copy>
+        <!-- ant dir="${toughresources.dir}" target="main" inheritall="true" / -->
+        <copy toDir="${external}" file="${toughresources.dir}/build/lib/tough-resources.zip" failonerror="false" />
+        <unzip dest="${external.jars}" src="${external}/tough-resources.zip"/>
+        <copy toDir="${external}" file="${toughresources.dir}/build/lib/tough-resources-config.zip" failonerror="false" />
+    </target>
+
+    <target name="unpack-protobuffers" depends="init">
+    </target>
+
+    <target name="compile.proto" depends="unpack-protobuffers">
+        <delete>
+            <fileset dir="${message.dir}">
+                <include name="*Message.java"/>
+            </fileset>
+        </delete>
+
+        <apply executable="protoc" verbose="true">
+            <arg value="--proto_path=${protobuf.dir}"/>
+            <arg value="--java_out=${src}"/>
+            <srcfile/>
+            <fileset dir="${protobuf.dir}" includes="*.proto"/>
+        </apply>
+    </target>
+
+	<target name="compile.src" depends="use.env, copy-dependencies-hudson-core,copy-dependencies-dev-core,
+		copy-additional-dependencies-dev, copy-additional-dependencies-hudson,
+	    compile.proto, set.jse.classpath">
+		<property name="myclasspath" refid="project.classpath" />
+		<!-- Emit the property to the ant console -->
+		<!--
+		<echo message="Classpath = ${myclasspath}" />
+        -->
+
+		<javac includeantruntime="false" debug="on"
+		    memoryMaximumSize="256m" memoryInitialSize="256m" fork="true" destdir="${classes}" srcdir="${src}">
+			<compilerarg value="-Xlint:unchecked" />
+			<classpath refid="project.classpath" />
+		</javac>
+		<copy todir="${classes}" overwrite="true">
+			<fileset dir="${resources}">
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="jar.all" depends="jar.core" />
+
+	<target name="jar.core" depends="run.tests">
+		<copy toDir="${classes}/META-INF" failonerror="false">
+			<fileset dir="${resources}">
+				<include name="*.xml" />
+				<include name="*.wsdl" />
+				<include name="*.xsd" />
+			</fileset>
+		</copy>
+		<jar destfile="${lib}/${name}.jar">
+			<fileset excludes="**/Test*.class" dir="${classes}" />
+		</jar>
+	</target>
+
+    <!-- Package test base classes and utilities for re-use in descendents -->
+    <target name="jar.tests" depends="run.tests">
+        <jar destfile="${lib}/${name}-test.jar">
+            <fileset dir="${test.classes}">
+                <include name="**/*.class" />
+                <exclude name="**/*Test.class" />
+            </fileset>
+        </jar>
+    </target>
+
+    <target name="dist" depends="jar.core, jar.tests, install.jar">
+    </target>
+
+    <target name="maven.deploy" depends="dist, maven.deploy.jar">
+    </target>
+
+</project>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+ <session-factory>
+  <!-- IAM Classes -->
+  <mapping class="com.msi.tough.model.ResourcesBean"/>
+  <mapping class="com.msi.tough.model.AccountBean"/>
+  <mapping class="com.msi.tough.model.UserBean"/>
+  <mapping class="com.msi.tough.model.CertificateBean"/>
+  <mapping class="com.msi.tough.model.AvailabilityZoneBean"/>
+  <mapping class="com.msi.tough.model.AZMapBean"/>
+  <mapping class="com.msi.tough.model.SystemDefaultsBean"/>
+  <!-- Load Balancer Classes  -->
+  <mapping class="com.msi.tough.model.LoadBalancerBean"/>
+  <mapping class="com.msi.tough.model.ListenerBean"/>
+  <!-- Instance Classes  -->
+  <mapping class="com.msi.tough.model.InstanceBean"/>
+  <mapping class="com.msi.tough.model.VolumeBean"/>
+  <!-- Event Classes  -->
+  <mapping class="com.msi.tough.model.EventLogBean"/>
+  <mapping class="com.msi.tough.model.EventLogTagBean"/>
+  <!--
+        <mapping resource="hbm/EventLogTag.hbm.xml" />
+
+ AutoScaling Classes -->
+  <mapping class="com.msi.tough.model.ASGroupBean"/>
+  <mapping class="com.msi.tough.model.LaunchConfigBean"/>
+  <mapping class="com.msi.tough.model.ASPolicyBean"/>
+  <mapping class="com.msi.tough.model.ASScheduledBean"/>
+  <mapping class="com.msi.tough.model.ASActivityLog"/>
+  <!-- EBS Classes -->
+  <mapping class="com.msi.tough.model.ApplicationBean"/>
+  <mapping class="com.msi.tough.model.ConfigBean"/>
+  <mapping class="com.msi.tough.model.ConfigTemplateBean"/>
+  <mapping class="com.msi.tough.model.EnvironmentBean"/>
+  <mapping class="com.msi.tough.model.VersionBean"/>
+  <!-- Simple Queue Classes -->
+  <mapping class="com.msi.tough.model.QueueBean"/>
+  <!-- Monitoring Classes -->
+  <mapping class="com.msi.tough.model.monitor.AlarmActionBean"/>
+  <mapping class="com.msi.tough.model.monitor.AlarmBean"/>
+  <mapping class="com.msi.tough.model.monitor.AlarmHistoryDetailBean"/>
+  <mapping class="com.msi.tough.model.monitor.MeasureBean"/>
+  <mapping class="com.msi.tough.model.monitor.DimensionBean"/>
+  <!--
+  <mapping class="com.msi.tough.model.monitor.DimensionGroupBean"/>
+  <mapping class="com.msi.tough.model.monitor.MetricBean"/>
+  <mapping class="com.msi.tough.model.monitor.UserStatisticBean"/>
+   -->
+  <mapping class="com.msi.tough.model.monitor.HypervisorConfigBean"/>
+  <mapping class="com.msi.tough.model.ServiceBean"/>
+  <mapping class="com.msi.tough.model.monitor.ServiceHealthEventBean"/>
+
+  <!-- ElasticMapReduce Classes -->
+  <mapping class="com.msi.tough.model.elasticmapreduce.ArgsBean"/>
+  <mapping class="com.msi.tough.model.elasticmapreduce.BootstrapActionDetailBean"/>
+  <mapping class="com.msi.tough.model.elasticmapreduce.InstanceGroupDetailBean"/>
+  <mapping class="com.msi.tough.model.elasticmapreduce.JobFlowDetailBean"/>
+  <mapping class="com.msi.tough.model.elasticmapreduce.KeyValueBean"/>
+  <mapping class="com.msi.tough.model.elasticmapreduce.StepDetailBean"/>
+  <!-- RDS Classes -->
+  <mapping class="com.msi.tough.model.rds.RdsDbengine"/>
+  <mapping class="com.msi.tough.model.rds.RdsDbinstance"/>
+  <mapping class="com.msi.tough.model.rds.RdsDbparameterGroup"/>
+  <mapping class="com.msi.tough.model.rds.RdsDbsecurityGroup"/>
+  <mapping class="com.msi.tough.model.rds.RdsParameter"/>
+  <mapping class="com.msi.tough.model.rds.RdsSnapshot"/>
+  <mapping class="com.msi.tough.model.rds.RdsIPRangeBean"/>
+  <mapping class="com.msi.tough.model.rds.RdsEC2SecurityGroupBean"/>
+  <!-- GI Classes -->
+  <mapping class="com.msi.tough.model.gi.GIUserBean"/>
+  <mapping class="com.msi.tough.model.gi.ImageMetadataBean"/>
+  <mapping class="com.msi.tough.model.gi.InstanceDataBean"/>
+  <!-- Cloud Formation Classes -->
+  <mapping class="com.msi.tough.model.cf.CFStackBean"/>
+  <!--  ElastiCache Classes -->
+  <mapping class="com.msi.tough.model.elasticache.CacheClusterBean"/>
+  <mapping class="com.msi.tough.model.elasticache.CacheNodeBean"/>
+  <mapping class="com.msi.tough.model.elasticache.CacheNodeTypeBean"/>
+  <mapping class="com.msi.tough.model.elasticache.CacheNodeTypeSpecificValueBean"/>
+  <mapping class="com.msi.tough.model.elasticache.CacheParameterGroupBean"/>
+  <mapping class="com.msi.tough.model.elasticache.CacheParameterGroupFamilyBean"/>
+  <mapping class="com.msi.tough.model.elasticache.CacheSecurityGroupBean"/>
+  <mapping class="com.msi.tough.model.elasticache.ParameterBean"/>
+  <!-- Elastic BeanStalk  -->
+ </session-factory>
+</hibernate-configuration>

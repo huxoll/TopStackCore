@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 10, 2011 9:13:50 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.msi.tough.model.rds.RdsPendingModifiedValues" table="rds_pending_modified_values">
+        <composite-id name="id" class="com.msi.tough.model.rds.RdsPendingModifiedValuesId">
+            <key-property name="dbinstanceId" type="string">
+                <column name="dbinstance_id" length="200" />
+            </key-property>
+            <key-property name="userId" type="string">
+                <column name="user_id" length="200" />
+            </key-property>
+        </composite-id>
+        <property name="allocatedStorage" type="java.lang.Integer">
+            <column name="allocated_storage" />
+        </property>
+        <property name="backupRetentionPeriod" type="java.lang.Integer">
+            <column name="backup_retention_period" />
+        </property>
+        <property name="dbinstanceClass" type="string">
+            <column name="dbinstance_class" length="200" />
+        </property>
+        <property name="engineVersion" type="string">
+            <column name="engine_version" length="200" />
+        </property>
+        <property name="masterUserPassword" type="string">
+            <column name="master_user_password" length="200" />
+        </property>
+        <property name="multiAz" type="java.lang.Boolean">
+            <column name="multi_az" />
+        </property>
+        <property name="port" type="java.lang.Integer">
+            <column name="port" />
+        </property>
+    </class>
+</hibernate-mapping>

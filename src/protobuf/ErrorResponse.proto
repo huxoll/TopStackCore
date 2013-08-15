@@ -1,0 +1,19 @@
+package topstack_toughcore;
+
+option java_package = "com.msi.tough.message";
+option java_outer_classname = "CoreMessage";
+
+/* Error Result corresponds to an HTTP error that might be returned from a
+ * web service.
+ */
+message ErrorResult {
+    required bool typeId = 10000;
+    required string requestId = 1;
+    required string callerAccessKey = 2;
+    required uint32 requestStatusEquivalent = 3;
+    required string errorType = 4;
+    required string errorCode = 5;
+    required string errorMessage = 6;
+    optional string originalAction = 7;
+    optional string detail = 8;
+}

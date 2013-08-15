@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 10, 2011 9:13:50 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.msi.tough.model.rds.RdsReservedDbinstance" table="rds_reserved_dbinstance">
+        <composite-id name="id" class="com.msi.tough.model.rds.RdsReservedDbinstanceId">
+            <key-property name="reservedDbinstanceId" type="string">
+                <column name="reserved_dbinstance_id" length="64" />
+            </key-property>
+            <key-property name="userId" type="string">
+                <column name="user_id" length="64" />
+            </key-property>
+        </composite-id>
+        <property name="reservedDbinstanceOfferingId" type="string">
+            <column name="reserved_dbinstance_offering_id" length="64" />
+        </property>
+        <property name="dbinstanceCount" type="java.lang.Integer">
+            <column name="dbinstance_count" />
+        </property>
+        <property name="startTime" type="timestamp">
+            <column name="start_time" length="19" />
+        </property>
+        <property name="status" type="string">
+            <column name="status" length="20" />
+        </property>
+    </class>
+</hibernate-mapping>
